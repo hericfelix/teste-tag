@@ -1,19 +1,21 @@
 {
+  "root": true,
   "env": {
     "es2021": true,
     "node": true,
     "jest": true
   },
-  "extends": ["airbnb-base"],
+  "extends": ["airbnb-typescript/base"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "project": "./tsconfig.json",
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
     "comma-dangle": "off",
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "@typescript-eslint/indent": ["off", 2]
   }
 }
