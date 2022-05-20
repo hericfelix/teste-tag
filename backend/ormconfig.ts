@@ -1,18 +1,28 @@
-export default {
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const devEnv = {
   type: 'postgres',
   host: 'localhost',
-  port: 5432,
-  username: 'test',
-  password: 'test',
-  database: 'test',
-  synchronize: true,
+  port: process.env.PGPORT,
+  username: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DB,
   logging: false,
-  entities: ['src/entities/**/*.ts'],
-  migrations: ['src/migrations/**/*.ts'],
-  subscribers: ['src/subscriber/**/*.ts'],
+  entities: ['src/entities/**/*.*'],
+  migrations: ['src/migrations/**/*.*'],
   cli: {
     entitiesDir: 'src/entities',
     migrationsDir: 'src/migrations',
-    subscribersDir: 'src/subscriber',
   },
 };
+
+const testEnv = {
+  type: 'sqlite',
+  database: './dbTest.sqlite',
+  synchronize: true,
+  entities: ['src/entities/**/*.*'],
+};
+
+export default process.env.NODE_ENV === 'test' ? testEnv : devEnv;
