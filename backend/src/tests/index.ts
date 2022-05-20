@@ -3,10 +3,8 @@ import { existsSync } from 'fs';
 import { unlink } from 'fs/promises';
 import path from 'path';
 import { createConnection, getConnection } from 'typeorm';
-import Product from '../entities/product';
-import User from '../entities/user';
 
-const generateProduct = (): Product => {
+const generateProduct = () => {
   const name = faker.commerce.product();
   const status = faker.random.alpha(1);
   const category = faker.commerce.department();
@@ -18,7 +16,7 @@ const generateProduct = (): Product => {
   };
 };
 
-const generateUser = async (): User => {
+const generateUser = () => {
   const firstName = faker.name.firstName();
   const email = faker.internet.email(firstName).toLowerCase();
   const password = faker.random.alphaNumeric(6);

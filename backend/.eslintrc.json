@@ -16,6 +16,7 @@
   "rules": {
     "comma-dangle": "off",
     "class-methods-use-this": "off",
-    "@typescript-eslint/indent": ["off", 2]
+    "@typescript-eslint/indent": ["off", 2],
+    "@typescript-eslint/return-await": "off"
   }
 }
