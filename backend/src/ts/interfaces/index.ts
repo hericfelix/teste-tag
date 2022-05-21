@@ -9,9 +9,9 @@ export interface IQueryParams {
   sort_name?: AscOrDesc;
   sort_date?: AscOrDesc;
   sort_status?: AscOrDesc;
-  name: string;
-  date: string;
-  status: string;
+  name?: string;
+  date?: string;
+  status?: string;
 }
 
 export interface IProduct {

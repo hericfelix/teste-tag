@@ -12,7 +12,7 @@ class ProductRepository implements ProductRepo {
 
   save = async (data: IProduct) => await this.ormRepo.save(data);
 
-  get = async (queryParams?: IQueryParams) => {
+  get = async (queryParams: IQueryParams = {}) => {
     const query = queryGenerator(queryParams);
 
     return await this.ormRepo.find(query);
