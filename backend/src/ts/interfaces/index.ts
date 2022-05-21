@@ -23,6 +23,11 @@ export interface IProduct {
   category_id?: string;
 }
 
+export interface ILogin {
+  email: string;
+  password: string;
+}
+
 export interface IUser {
   name: string;
   email: string;
