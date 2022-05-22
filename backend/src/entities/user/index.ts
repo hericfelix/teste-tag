@@ -16,7 +16,7 @@ class User {
   password: string;
 
   @OneToMany((type) => Product, (product) => product.user)
-  products: Product[];
+  products?: Product[];
 }
 
 export default User;

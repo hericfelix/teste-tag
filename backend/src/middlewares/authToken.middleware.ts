@@ -4,7 +4,7 @@ import jwtConfig from '../configs';
 
 const authToken = (req: Request, _: Response, next: NextFunction) => {
   const { secretKey, expiresIn } = jwtConfig;
-  const signToken = sign({ email: req.validated.email }, secretKey, {
+  const signToken = sign({ ...req.user }, secretKey, {
     expiresIn,
   });
 

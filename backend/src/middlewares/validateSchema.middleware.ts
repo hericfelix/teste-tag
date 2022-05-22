@@ -1,6 +1,5 @@
 import { AnySchema } from 'yup';
 import { NextFunction, Request, Response } from 'express';
-import { IProduct } from '../ts/interfaces';
 
 const validateSchema =
   (schema: AnySchema) =>
@@ -15,7 +14,7 @@ const validateSchema =
 
       return next();
     } catch (error) {
-      return res.status(400).json({ error: error.errors });
+      return next(error);
     }
   };
 

@@ -4,7 +4,7 @@ import { generateUser } from '..';
 import jwtConfig from '../../configs';
 import { authToken } from '../../middlewares';
 
-describe('unit test for authToken middleware', () => {
+describe('Tests for authToken middleware', () => {
   const mockReq: Partial<Request> = {};
   const mockRes: Partial<Response> = {};
   const mockNext: Partial<NextFunction> = jest.fn();

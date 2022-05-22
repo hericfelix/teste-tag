@@ -7,7 +7,7 @@ const validateAuth = (req: Request, res: Response, next: NextFunction) => {
 
   jsonwebtoken.verify(token, config.secretKey, (err, decoded) => {
     if (err) {
-      return res.status(401).json({ error: err });
+      return next(err);
     }
 
     req.decodedEmail = decoded.email;

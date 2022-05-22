@@ -9,7 +9,7 @@ import {
 import { jwtConfig } from '../../configs';
 import { sign } from 'jsonwebtoken';
 
-describe('get user token route integration test', () => {
+describe('delete product route integration test', () => {
   beforeAll(async () => {
     await ConnectionTestJest.create();
   });
@@ -30,7 +30,7 @@ describe('get user token route integration test', () => {
 
     const product = generateProduct();
 
-    await new CategoryRepository().save(product.category);
+    await new CategoryRepository().save({ name: product.category });
 
     const { id } = await new ProductRepository().save(product, email);
 

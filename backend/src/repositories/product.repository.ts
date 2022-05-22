@@ -1,7 +1,12 @@
 import { getRepository, Repository } from 'typeorm';
-import Product from '../../entities/product';
-import { queryGenerator } from '../../helpers';
-import { IProduct, IQueryParams, ProductRepo } from '../../ts/interfaces';
+import Product from '../entities/product';
+import { queryGenerator } from '../helpers';
+import {
+  ICreateProduct,
+  IProduct,
+  IQueryParams,
+  ProductRepo,
+} from '../ts/interfaces';
 
 class ProductRepository implements ProductRepo {
   private ormRepo: Repository<Product>;
@@ -10,7 +15,7 @@ class ProductRepository implements ProductRepo {
     this.ormRepo = getRepository(Product);
   }
 
-  save = async (data: IProduct) => await this.ormRepo.save(data);
+  save = async (data: ICreateProduct) => await this.ormRepo.save(data);
 
   get = async (queryParams: IQueryParams = {}) => {
     const query = queryGenerator(queryParams);

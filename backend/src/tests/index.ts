@@ -17,15 +17,21 @@ const generateProduct = () => {
 };
 
 const generateUser = () => {
-  const firstName = faker.name.firstName();
-  const email = faker.internet.email(firstName).toLowerCase();
+  const name = faker.name.firstName();
+  const email = faker.internet.email(name).toLowerCase();
   const password = faker.random.alphaNumeric(6);
 
   return {
-    firstName,
+    name,
     email,
     password,
   };
+};
+
+const generateCategory = () => {
+  const name = faker.commerce.department();
+
+  return { name };
 };
 
 class ConnectionTestJest {
@@ -60,4 +66,4 @@ class ConnectionTestJest {
   };
 }
 
-export { generateProduct, generateUser, ConnectionTestJest };
+export { generateProduct, generateUser, ConnectionTestJest, generateCategory };
