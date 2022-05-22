@@ -9,7 +9,7 @@ import {
   ProductRepository,
 } from '../../repositories';
 
-describe('get user token route integration test', () => {
+describe('update prodct route integration test', () => {
   beforeAll(async () => {
     await ConnectionTestJest.create();
   });

@@ -5,7 +5,7 @@ import app from '../../app';
 import { UserRepository, CategoryRepository } from '../../repositories';
 import { jwtConfig } from '../../configs';
 
-describe('get user token route integration test', () => {
+describe('create product route integration test', () => {
   beforeAll(async () => {
     await ConnectionTestJest.create();
   });
@@ -26,7 +26,7 @@ describe('get user token route integration test', () => {
 
     const { name, status, category } = generateProduct();
 
-    await new CategoryRepository().save(category);
+    await new CategoryRepository().save({ name: category });
 
     const response = await supertest(app)
       .post('/products')
@@ -47,7 +47,7 @@ describe('get user token route integration test', () => {
 
     const { status, category } = generateProduct();
 
-    await new CategoryRepository().save(category);
+    await new CategoryRepository().save({ name: category });
 
     const response = await supertest(app)
       .post('/products')
@@ -69,7 +69,7 @@ describe('get user token route integration test', () => {
 
     const { status, category } = generateProduct();
 
-    await new CategoryRepository().save(category);
+    await new CategoryRepository().save({ name: category });
 
     const response = await supertest(app)
       .post('/products')

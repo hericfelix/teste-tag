@@ -23,6 +23,11 @@ export interface IProduct {
   category_id?: string;
 }
 
+export interface ICreateProduct {
+  name: string;
+  status: Status;
+}
+
 export interface ILogin {
   email: string;
   password: string;
@@ -35,7 +40,7 @@ export interface IUser {
 }
 
 export interface ProductRepo {
-  save: (data: IProduct) => Promise<Product>;
+  save: (data: ICreateProduct) => Promise<Product>;
   get: (queryParams?: IQueryParams) => Promise<Product[]>;
   update: (id: string, data: Partial<IProduct>) => Promise<UpdateResult>;
   delete: (ids: string[]) => Promise<DeleteResult>;
@@ -43,8 +48,10 @@ export interface ProductRepo {
 
 export interface UserRepo {
   save: (data: IUser) => Promise<User>;
+  getByEmail: (email: string) => Promise<User>;
 }
 
 export interface CategoryRepo {
-  save: (data: { [key: string]: string }) => Promise<Category>;
+  save: (data: { name: string }) => Promise<Category>;
+  getByName: (data: { name: string }) => Promise<Category>;
 }

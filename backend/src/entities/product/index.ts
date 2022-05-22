@@ -22,15 +22,15 @@ class Product {
   status: Status;
 
   @Column({ default: new Date() })
-  created: Date;
+  created?: Date;
 
   @ManyToOne((type) => Category, (category) => category.products)
   @JoinColumn({ name: 'category_id' })
-  category: Category;
+  category?: Category;
 
   @ManyToOne((type) => User, (user) => user.products)
   @JoinColumn({ name: 'created_by' })
-  user: User;
+  user?: User;
 }
 
 export default Product;
