@@ -1,0 +1,17 @@
+{
+  "files": ["src/@types/custom.d.ts"],
+  "compilerOptions": {
+    "lib": ["es5", "es6"],
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./build",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "exclude": ["node_modules", "./src/tests"],
+  "include": ["**/*.ts", "./src/ts/interfaces/index.ts"]
+}
