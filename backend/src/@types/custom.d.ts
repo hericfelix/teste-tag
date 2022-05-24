@@ -3,7 +3,7 @@ declare namespace Express {
     category: Category;
     validated: Partial<IProduct> | ILogin;
     token: string;
-    decodedEmail: string;
     user: User;
+    email: string;
   }
 }

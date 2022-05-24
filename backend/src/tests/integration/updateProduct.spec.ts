@@ -8,6 +8,7 @@ import {
   CategoryRepository,
   ProductRepository,
 } from '../../repositories';
+import { randomUUID } from 'crypto';
 
 describe('update prodct route integration test', () => {
   beforeAll(async () => {
@@ -28,19 +29,35 @@ describe('update prodct route integration test', () => {
     const { email } = await new UserRepository().save(generateUser());
     const validToken = sign({ email }, secretKey, { expiresIn });
 
-    const product = generateProduct();
+    const { name, status, category } = generateProduct();
 
-    await new CategoryRepository().save(product.category);
+    await new CategoryRepository().save({ name: category });
 
-    await new ProductRepository().save(product, email);
+    const { id } = await new ProductRepository().save({ name, status });
 
     const response = await supertest(app)
-      .post('/products')
+      .patch(`/products/${id}`)
       .field('name', 'new name')
       .set('Authorization', `Bearer ${validToken}`);
 
     expect(response.status).toBe(204);
-    expect(response.body).toBeUndefined();
+    expect(response.body).toStrictEqual({});
+  });
+
+  it('will not be able to update product, return status 401 and error message', async () => {
+    const { name, status, category } = generateProduct();
+
+    await new CategoryRepository().save({ name: category });
+
+    const { id } = await new ProductRepository().save({ name, status });
+
+    const response = await supertest(app)
+      .patch(`/products/${id}`)
+      .field('name', 'new name')
+      .set('Authorization', `Bearer invalidToken`);
+
+    expect(response.status).toBe(401);
+    expect(response.body).toStrictEqual({ error: 'invalid token' });
   });
 
   it('will not be able to update product, return status 401 and error message', async () => {
@@ -48,18 +65,12 @@ describe('update prodct route integration test', () => {
     const { email } = await new UserRepository().save(generateUser());
     const validToken = sign({ email }, secretKey, { expiresIn });
 
-    const product = generateProduct();
-
-    await new CategoryRepository().save(product.category);
-
-    await new ProductRepository().save(product, email);
-
     const response = await supertest(app)
-      .post('/products')
+      .patch(`/products/${randomUUID()}`)
       .field('name', 'new name')
       .set('Authorization', `Bearer ${validToken}`);
 
-    expect(response.status).toBe(401);
-    expect(response.body).toStrictEqual({ error: 'invalid authorization' });
+    expect(response.status).toBe(404);
+    expect(response.body).toStrictEqual({ message: 'product not found' });
   });
 });

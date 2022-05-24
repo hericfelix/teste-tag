@@ -5,14 +5,16 @@ import { UserRepository } from '../repositories';
 
 const findUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const user: User = await new UserRepository().getByEmail(req.body.email);
+    const user: User = await new UserRepository().getByEmail(
+      req.body.email || req.email
+    );
 
     if (!user) {
-      throw new ErrorHandler(404, 'invalid credentials');
+      throw new ErrorHandler(401, 'invalid credentials');
     }
 
-    if (req.body.password !== user.password) {
-      throw new ErrorHandler(404, 'invalid credentials');
+    if (req.body.password && req.body.password !== user.password) {
+      throw new ErrorHandler(401, 'invalid credentials');
     }
 
     req.user = user;

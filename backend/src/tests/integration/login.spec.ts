@@ -1,8 +1,8 @@
 import { verify } from 'jsonwebtoken';
 import supertest from 'supertest';
-import { ConnectionTestJest, generateUser } from '..';
+import { ConnectionTestJest, generateUser, slowDown } from '..';
 import app from '../../app';
-import jwtConfig from '../../configs';
+import { jwtConfig } from '../../configs';
 import { UserRepository } from '../../repositories';
 
 describe('get user token route integration test', () => {
@@ -27,7 +27,7 @@ describe('get user token route integration test', () => {
 
     const response = await supertest(app)
       .post('/login')
-      .send({ email, password });
+      .send({ email: email, password: password });
 
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('token');
@@ -41,14 +41,14 @@ describe('get user token route integration test', () => {
   it('will return status 404 and invalid credentials as json response if user does not exists', async () => {
     const { email, password } = generateUser();
     const response = await supertest(app)
-      .post('/api/login')
+      .post('/login')
       .send({ email, password });
 
-    expect(response.status).toBe(404);
-    expect(response.body).toStrictEqual({ message: 'invalid credentials' });
+    expect(response.status).toBe(401);
+    expect(response.body).toStrictEqual({ error: 'invalid credentials' });
   });
 
-  it('will return status 404 and invalid credentials as json response if password is wrong', async () => {
+  it('will return status 401 and invalid credentials as json response if password is wrong', async () => {
     const user = generateUser();
     const { email } = user;
     await new UserRepository().save(user);
@@ -56,10 +56,10 @@ describe('get user token route integration test', () => {
     const { password } = generateUser();
 
     const response = await supertest(app)
-      .post('/api/login')
+      .post('/login')
       .send({ email, password });
 
-    expect(response.status).toBe(404);
-    expect(response.body).toStrictEqual({ message: 'invalid credentials' });
+    expect(response.status).toBe(401);
+    expect(response.body).toStrictEqual({ error: 'invalid credentials' });
   });
 });

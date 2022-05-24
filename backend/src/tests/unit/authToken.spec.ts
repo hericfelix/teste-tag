@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 import { generateUser } from '..';
-import jwtConfig from '../../configs';
+import { jwtConfig } from '../../configs';
 import { authToken } from '../../middlewares';
 
 describe('Tests for authToken middleware', () => {

@@ -1,8 +1,18 @@
 import { Request, Response } from 'express';
 import { ProductRepository } from '../../repositories';
+import cloudinary from 'cloudinary';
+import { cloudinaryConfig } from '../../configs';
 
 const createProduct = async (req: Request, res: Response) => {
-  const { data } = req.body;
+  const data = req.body;
+
+  cloudinary.v2.config(cloudinaryConfig);
+
+  const result = await cloudinary.v2.uploader.upload(req.file.path);
+
+  console.log(result);
+
+  data.imageUrl = result.url;
 
   const { user, category } = req;
 

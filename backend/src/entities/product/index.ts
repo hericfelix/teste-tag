@@ -18,11 +18,14 @@ class Product {
   @Column({ length: 60 })
   name: string;
 
-  @Column({ type: 'enum', enum: Status })
+  @Column({ type: 'enum', enum: Status, default: Status.A })
   status: Status;
 
   @Column({ default: new Date() })
   created?: Date;
+
+  @Column()
+  imageUrl: string;
 
   @ManyToOne((type) => Category, (category) => category.products)
   @JoinColumn({ name: 'category_id' })
