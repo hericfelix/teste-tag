@@ -1,9 +1,10 @@
 import faker from '@faker-js/faker';
 import { NextFunction, Request, Response } from 'express';
 import { sign } from 'jsonwebtoken';
-import { generateUser } from '..';
-import jwtConfig from '../../configs';
+import { ConnectionTestJest, generateUser } from '..';
+import { jwtConfig } from '../../configs';
 import { validateToken } from '../../middlewares';
+import { UserRepository } from '../../repositories';
 
 describe('Tests for validateToken middleware', () => {
   const mockReq: Partial<Request> = {};
@@ -83,10 +84,11 @@ describe('Tests for validateToken middleware', () => {
     });
   });
 
-  it('will call next function and add key decodedEmail on mockReq object', () => {
+  it('will call next function and add key decodedEmail on mockReq object', async () => {
+    const { email } = generateUser();
+
     const { secretKey, expiresIn } = jwtConfig;
-    const user = generateUser();
-    const validToken = sign({ ...user }, secretKey, { expiresIn });
+    const validToken = sign({ email: email }, secretKey, { expiresIn });
 
     mockReq.headers = {
       authorization: `Bearer ${validToken}`,
@@ -101,7 +103,6 @@ describe('Tests for validateToken middleware', () => {
     expect(mockNext).toBeCalled();
     expect(mockNext).toBeCalledTimes(1);
 
-    expect(mockReq).toHaveProperty('decoded');
-    expect(mockReq.decodedEmail).toEqual(user.email);
+    expect(mockReq).toHaveProperty('email');
   });
 });

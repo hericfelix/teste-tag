@@ -1,12 +1,14 @@
 import { faker } from '@faker-js/faker';
-import { existsSync } from 'fs';
-import { unlink } from 'fs/promises';
-import path from 'path';
 import { createConnection, getConnection } from 'typeorm';
+import { Status } from '../ts/enums';
+import { createDatabase, dropDatabase } from 'typeorm-extension';
+import 'reflect-metadata';
 
 const generateProduct = () => {
   const name = faker.commerce.product();
-  const status = faker.random.alpha(1);
+  const status: Status = [Status.A, Status.I, Status.D][
+    Math.floor(Math.random() * 3)
+  ];
   const category = faker.commerce.department();
 
   return {
@@ -34,36 +36,40 @@ const generateCategory = () => {
   return { name };
 };
 
+const slowDown = () =>
+  new Promise((resolve, reject) => setTimeout(() => resolve('slowDown'), 500));
+
 class ConnectionTestJest {
-  dbPath: string;
-
-  static dbPath = path.join(__dirname, '../../dbTest.sqlite');
-
   static create = async () => {
-    if (existsSync(this.dbPath)) {
-      await unlink(this.dbPath);
-    }
+    await createDatabase({ ifNotExist: true, synchronize: true });
+    const conn = await createConnection('default');
 
-    await createConnection('default');
+    await conn.synchronize();
   };
 
   static close = async () => {
     await getConnection('default').close();
-
-    if (existsSync(this.dbPath)) {
-      await unlink(this.dbPath);
-    }
   };
 
   static clear = async () => {
     const connection = getConnection('default');
     const entities = connection.entityMetadatas;
 
-    await entities.forEach(async (entity) => {
-      const repository = connection.getRepository(entity.name);
-      await repository.query(`DELETE FROM ${entity.tableName}`);
-    });
+    await new Promise((resolve, _) =>
+      resolve(
+        entities.forEach(async (entity) => {
+          const repository = connection.getRepository(entity.name);
+          await repository.query(`DELETE FROM ${entity.tableName}`);
+        })
+      )
+    );
   };
 }
 
-export { generateProduct, generateUser, ConnectionTestJest, generateCategory };
+export {
+  generateProduct,
+  generateUser,
+  ConnectionTestJest,
+  generateCategory,
+  slowDown,
+};

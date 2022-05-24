@@ -23,8 +23,9 @@ class ProductRepository implements ProductRepo {
     return await this.ormRepo.find(query);
   };
 
-  update = async (id: string, data: Partial<IProduct>) =>
-    await this.ormRepo.update(id, data);
+  update = async (id: string, data: Partial<IProduct>) => {
+    return await this.ormRepo.update(id, { ...data });
+  };
 
   delete = async (ids: string[]) => await this.ormRepo.delete(ids);
 }

@@ -1,18 +1,28 @@
 import { NextFunction, Request, Response } from 'express';
-import jsonwebtoken from 'jsonwebtoken';
-import { config } from '../configs';
+import jsonwebtoken, { JwtPayload } from 'jsonwebtoken';
+import { jwtConfig } from '../configs';
 
-const validateAuth = (req: Request, res: Response, next: NextFunction) => {
+const validateToken = (req: Request, res: Response, next: NextFunction) => {
+  if (!req.headers.authorization) {
+    return res.status(401).json({ message: 'missing authorization header' });
+  }
+
   const token = req.headers.authorization?.split(' ')[1];
 
-  jsonwebtoken.verify(token, config.secretKey, (err, decoded) => {
+  console.log(token);
+
+  jsonwebtoken.verify(token, jwtConfig.secretKey, (err, decoded) => {
+    console.log(err);
     if (err) {
-      return next(err);
+      return res.status(401).json({ error: 'invalid token' });
     }
 
-    req.decodedEmail = decoded.email;
+    const { email } = decoded as JwtPayload;
+
+    req.email = email;
+
     return next();
   });
 };
 
-export default validateAuth;
+export default validateToken;

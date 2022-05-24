@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { ConnectionTestJest, generateUser } from '..';
 import User from '../../entities/user';
+import { ErrorHandler } from '../../helpers';
 import { findUser } from '../../middlewares';
 import { UserRepository } from '../../repositories';
 import { IUser, UserRepo } from '../../ts/interfaces';
@@ -24,6 +25,7 @@ describe('Tests for findUser middleware', () => {
 
   beforeEach(async () => {
     await ConnectionTestJest.clear();
+
     mockRes.json = jest.fn().mockReturnValue(mockRes);
     mockRes.status = jest.fn().mockReturnValue(mockRes);
 
@@ -42,13 +44,9 @@ describe('Tests for findUser middleware', () => {
       mockNext as NextFunction
     );
 
-    expect(mockRes.status).toBeCalled();
-    expect(mockRes.status).toBeCalledTimes(1);
-    expect(mockRes.status).toBeCalledWith(404);
-
-    expect(mockRes.json).toBeCalled();
-    expect(mockRes.json).toBeCalledTimes(1);
-    expect(mockRes.json).toBeCalledWith({ message: 'invalid credentials' });
+    expect(mockNext).toHaveBeenCalledTimes(1);
+    expect(mockNext).toHaveBeenLastCalledWith(expect.any(Error));
+    expect(mockReq.user).toBeUndefined();
   });
 
   it('will return status 404 and error if password does not match', async () => {
@@ -65,13 +63,9 @@ describe('Tests for findUser middleware', () => {
       mockNext as NextFunction
     );
 
-    expect(mockRes.status).toBeCalled();
-    expect(mockRes.status).toBeCalledTimes(1);
-    expect(mockRes.status).toBeCalledWith(404);
-
-    expect(mockRes.json).toBeCalled();
-    expect(mockRes.json).toBeCalledTimes(1);
-    expect(mockRes.json).toBeCalledWith({ message: 'invalid credentials' });
+    expect(mockNext).toHaveBeenCalledTimes(2);
+    expect(mockNext).toHaveBeenLastCalledWith(expect.any(Error));
+    expect(mockReq.user).toBeUndefined();
   });
 
   it('will call next function and add user property', async () => {
@@ -85,9 +79,9 @@ describe('Tests for findUser middleware', () => {
     );
 
     expect(mockNext).toBeCalled();
-    expect(mockNext).toBeCalledTimes(1);
+    expect(mockNext).toHaveBeenCalledTimes(3);
 
-    expect(mockReq).toHaveProperty('userDb');
+    expect(mockReq).toHaveProperty('user');
     expect(mockReq.user).toEqual(user);
   });
 });

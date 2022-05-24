@@ -1,7 +1,7 @@
 import { NextFunction, Response, Request } from 'express';
 import { validateSchema } from '../../middlewares';
 import { generateProduct } from '..';
-import { productSchema } from '../../schemas';
+import { createProductSchema } from '../../schemas';
 
 describe('Tests for validatSchema middleware', () => {
   const mockRes: Partial<Response> = {};
@@ -13,7 +13,7 @@ describe('Tests for validatSchema middleware', () => {
     mockRes.status = jest.fn().mockReturnValue(mockRes);
     mockReq.body = {};
   });
-  it('will return status 400 and error message if body is invalid', async () => {
+  it('will call next function with error if body is invalid', async () => {
     const { name, ...rest } = generateProduct();
 
     mockReq.body = rest;
@@ -24,17 +24,8 @@ describe('Tests for validatSchema middleware', () => {
       mockNext as NextFunction
     );
 
-    expect(mockRes.status).toBeCalled();
-    expect(mockRes.status).toBeCalledTimes(1);
-    expect(mockRes.status).toHaveBeenCalledWith(400);
-
-    expect(mockRes.json).toBeCalled();
-    expect(mockRes.json).toBeCalledTimes(1);
-    expect(mockRes.json).toHaveBeenCalledWith({
-      error: ['name is a required field'],
-    });
-
-    expect(mockNext).toHaveBeenCalledTimes(0);
+    expect(mockNext).toHaveBeenCalledTimes(1);
+    expect(mockNext).toHaveBeenLastCalledWith(expect.any(Error));
   });
   it('will call next function and add key validated to req', async () => {
     mockReq.body = generateProduct();
@@ -48,15 +39,15 @@ describe('Tests for validatSchema middleware', () => {
     expect(mockReq.validated).toBeTruthy();
 
     expect(mockNext).toBeCalled();
-    expect(mockNext).toBeCalledTimes(1);
+    expect(mockNext).toBeCalledTimes(2);
   });
 
   it('will call next function and add key validated to req, ignoring aditional key passed', async () => {
     const product = generateProduct();
 
-    product.ignore = 'ignored key';
+    const productWithExtraKey = { ...product, ignore: 'ignored key' };
 
-    mockReq.body = product;
+    mockReq.body = productWithExtraKey;
 
     await validateSchema(createProductSchema)(
       mockReq as Request,
@@ -68,6 +59,6 @@ describe('Tests for validatSchema middleware', () => {
     expect(mockReq.validated.ignore).toBeUndefined();
 
     expect(mockNext).toBeCalled();
-    expect(mockNext).toBeCalledTimes(1);
+    expect(mockNext).toBeCalledTimes(3);
   });
 });

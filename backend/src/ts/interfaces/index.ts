@@ -18,7 +18,8 @@ export interface IProduct {
   id?: string;
   name: string;
   status: Status;
-  created: Date;
+  created?: Date;
+  imageUrl: string;
   created_by?: string;
   category_id?: string;
 }
@@ -54,4 +55,9 @@ export interface UserRepo {
 export interface CategoryRepo {
   save: (data: { name: string }) => Promise<Category>;
   getByName: (data: { name: string }) => Promise<Category>;
+}
+
+export interface JWTConfig {
+  secretKey: string;
+  expiresIn: string | number;
 }
