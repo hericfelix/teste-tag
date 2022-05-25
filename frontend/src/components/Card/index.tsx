@@ -39,12 +39,14 @@ const ProductCard = ({
 
   return (
     <Card className=" p-3 border app-card">
-      <Input
-        checked={checked}
-        onClick={handleCheck}
-        className="pointer mb-3"
-        type="checkbox"
-      />
+      {token && (
+        <Input
+          checked={checked}
+          onClick={handleCheck}
+          className="pointer mb-3"
+          type="checkbox"
+        />
+      )}
       <CardImg className="img" alt={name} src={imageUrl} top width="100%" />
       <CardBody className="overflow-auto body">
         <CardTitle tag="h5">
