@@ -8,6 +8,8 @@ import {
   CardSubtitle,
   Button,
 } from 'reactstrap';
+import { useLogin } from '../../providers/login';
+import { useProducts } from '../../providers/products';
 
 const ProductCard = ({
   category,
@@ -17,8 +19,8 @@ const ProductCard = ({
   name,
   status,
 }: IProduct) => {
-  const { token } = useUser();
-  const { setEditId, setEditModalVisible, deleteOne } = useProduct();
+  const { token } = useLogin();
+  const { setEditId, setEditModalVisible, setDeleteIds } = useProducts();
 
   return (
     <Card>
@@ -36,7 +38,13 @@ const ProductCard = ({
 
         {token && (
           <>
-            <Button onClick={() => deleteOne(id)}>Delete</Button>
+            <Button
+              onClick={() => {
+                setDeleteIds([id]);
+              }}
+            >
+              Delete
+            </Button>
             <Button
               onClick={() => {
                 setEditId(id);
