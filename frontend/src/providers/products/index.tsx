@@ -22,12 +22,12 @@ interface ProductsContextData {
   updateProduct: (data: FormData) => void;
   addToDelete: (id: string) => void;
   removeFromDelete: (id: string) => void;
-  editModalVisible: Boolean;
-  deleteModalVisible: Boolean;
+  editModalVisible: boolean;
+  deleteModalVisible: boolean;
   editId: string;
   setEditId: Dispatch<React.SetStateAction<string>>;
-  setEditModalVisible: Dispatch<React.SetStateAction<Boolean>>;
-  setDeleteModalVisible: Dispatch<React.SetStateAction<Boolean>>;
+  setEditModalVisible: Dispatch<React.SetStateAction<boolean>>;
+  setDeleteModalVisible: Dispatch<React.SetStateAction<boolean>>;
   setDeleteIds: Dispatch<React.SetStateAction<string[]>>;
 }
 
@@ -40,8 +40,8 @@ export const ProductsProvider = ({ children }: ProductsProviderProps) => {
   const [products, setProducts] = useState<IProduct[]>([]);
   const [deleteIds, setDeleteIds] = useState<string[]>([]);
   const [editId, setEditId] = useState<string>('');
-  const [editModalVisible, setEditModalVisible] = useState<Boolean>(false);
-  const [deleteModalVisible, setDeleteModalVisible] = useState<Boolean>(false);
+  const [editModalVisible, setEditModalVisible] = useState<boolean>(false);
+  const [deleteModalVisible, setDeleteModalVisible] = useState<boolean>(false);
 
   const getProducts = async (query: string = '') => {
     api
