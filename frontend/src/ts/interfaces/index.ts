@@ -4,13 +4,15 @@ export interface IProduct {
   status: string;
   created: string;
   imageUrl: string;
-  category: {
-    id: string;
-    name: string;
-  };
+  category: ICategory;
 }
 
-export interface UserData {
+export interface ICategory {
+  id: string;
+  name: string;
+}
+
+export interface ILogin {
   email: string;
   password: string;
 }
