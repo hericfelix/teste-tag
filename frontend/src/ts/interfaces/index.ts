@@ -9,3 +9,8 @@ export interface IProduct {
     name: string;
   };
 }
+
+export interface UserData {
+  email: string;
+  password: string;
+}
