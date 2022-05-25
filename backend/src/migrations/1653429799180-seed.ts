@@ -8,7 +8,7 @@ export class seed1653429799180 implements MigrationInterface {
       `INSERT INTO users(email, name, password) VALUES ('admin@admin.com', 'admin', 'admin123')`
     );
     await queryRunner.query(
-      `INSERT INTO categories(name) VALUES ('eletrônicos'), ('beleza'), ('música')`
+      `INSERT INTO categories(name) VALUES ('eletronics'), ('beauty'), ('music'), ('pets'), ('books')`
     );
   }
 
