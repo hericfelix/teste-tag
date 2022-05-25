@@ -24,6 +24,7 @@ interface ProductsContextData {
   removeFromDelete: (id: string) => void;
   editModalVisible: Boolean;
   deleteModalVisible: Boolean;
+  editId: string;
   setEditId: Dispatch<React.SetStateAction<string>>;
   setEditModalVisible: Dispatch<React.SetStateAction<Boolean>>;
   setDeleteModalVisible: Dispatch<React.SetStateAction<Boolean>>;
@@ -120,6 +121,7 @@ export const ProductsProvider = ({ children }: ProductsProviderProps) => {
         setDeleteIds,
         setDeleteModalVisible,
         setEditModalVisible,
+        editId,
       }}
     >
       {children}

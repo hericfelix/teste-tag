@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 
 import { toast } from 'react-toastify';
-import { UserData } from '../../ts/interfaces';
+import { ILogin } from '../../ts/interfaces';
 import api from '../../services';
 import { useNavigate } from 'react-router';
 
@@ -11,7 +11,7 @@ interface LoginProps {
 
 interface LoginContextData {
   token: string;
-  signIn: (userData: UserData) => void;
+  signIn: (userData: ILogin) => void;
   logout: () => void;
 }
 
@@ -24,7 +24,7 @@ export const LoginProvider = ({ children }: LoginProps) => {
     () => localStorage.getItem('@Tag:token') || ''
   );
 
-  const signIn = (userData: UserData) => {
+  const signIn = (userData: ILogin) => {
     api
       .post('/login', userData)
       .then((response) => {
