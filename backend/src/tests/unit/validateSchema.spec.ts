@@ -13,7 +13,7 @@ describe('Tests for validatSchema middleware', () => {
     mockRes.status = jest.fn().mockReturnValue(mockRes);
     mockReq.body = {};
   });
-  it('will call next function with error if body is invalid', async () => {
+  it('will return status 400 and error if body is invalid', async () => {
     const { name, ...rest } = generateProduct();
 
     mockReq.body = rest;
@@ -24,8 +24,8 @@ describe('Tests for validatSchema middleware', () => {
       mockNext as NextFunction
     );
 
-    expect(mockNext).toHaveBeenCalledTimes(1);
-    expect(mockNext).toHaveBeenLastCalledWith(expect.any(Error));
+    expect(mockRes.status).toBeCalledWith(400);
+    expect(mockRes.json).toBeCalledTimes(1);
   });
   it('will call next function and add key validated to req', async () => {
     mockReq.body = generateProduct();
@@ -39,7 +39,7 @@ describe('Tests for validatSchema middleware', () => {
     expect(mockReq.validated).toBeTruthy();
 
     expect(mockNext).toBeCalled();
-    expect(mockNext).toBeCalledTimes(2);
+    expect(mockNext).toBeCalledTimes(1);
   });
 
   it('will call next function and add key validated to req, ignoring aditional key passed', async () => {
@@ -59,6 +59,6 @@ describe('Tests for validatSchema middleware', () => {
     expect(mockReq.validated.ignore).toBeUndefined();
 
     expect(mockNext).toBeCalled();
-    expect(mockNext).toBeCalledTimes(3);
+    expect(mockNext).toBeCalledTimes(2);
   });
 });

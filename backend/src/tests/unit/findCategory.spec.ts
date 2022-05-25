@@ -48,8 +48,8 @@ describe('Tests for findCategory middleware', () => {
   });
 
   it('will call next function and add category property', async () => {
-    await categoryRepo.save(category);
-    mockReq.body = { ...category };
+    const categoryEntity = await categoryRepo.save(category);
+    mockReq.body.category = category.name;
 
     await findCategory(
       mockReq as Request,
@@ -59,8 +59,9 @@ describe('Tests for findCategory middleware', () => {
 
     expect(mockNext).toBeCalled();
     expect(mockNext).toBeCalledTimes(2);
+    expect(mockNext).not.toHaveBeenLastCalledWith(expect.any(Error));
 
     expect(mockReq).toHaveProperty('category');
-    expect(mockReq.category).toEqual(category);
+    expect(mockReq.category).toEqual(categoryEntity);
   });
 });

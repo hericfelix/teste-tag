@@ -1,11 +1,7 @@
-import supertest from 'supertest';
-import { ConnectionTestJest, generateProduct, generateUser } from '..';
+/*import supertest from 'supertest';
+import { ConnectionTestJest, generateProduct } from '..';
 import app from '../../app';
-import {
-  UserRepository,
-  ProductRepository,
-  CategoryRepository,
-} from '../../repositories';
+import { ProductRepository, CategoryRepository } from '../../repositories';
 
 describe('get product route integration test', () => {
   beforeAll(async () => {
@@ -68,3 +64,4 @@ describe('get product route integration test', () => {
     expect(response.body).toHaveLength(0);
   });
 });
+*/
