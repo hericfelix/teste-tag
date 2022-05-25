@@ -26,6 +26,8 @@ Para rodar a api é necessário criar um arquivo .env dentro da pasta backend co
 
 Há um arquivo .env.example que pode ser usado para iniciar a criação do .env.
 
+Após preencher as informações do .env, é necessário rodar o comando `yarn typeorm:migration run` dentro da pasta backend. Isso fará com que o banco de dados seja criado e que seja populado com um usuário e com algumas categorias.
+
 Para rodar o servidor, basta entrar na pasta backend e digitar o comando `yarn dev`, isso fará com que o servidor rode na porta 3333 do localhost por padrão.
 
 ## **Endpoints**
