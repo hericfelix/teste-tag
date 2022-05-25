@@ -20,7 +20,15 @@ class ProductRepository implements ProductRepo {
   get = async (queryParams: IQueryParams = {}) => {
     const query = queryGenerator(queryParams);
 
-    return await this.ormRepo.find(query);
+    return await this.ormRepo.find({
+      join: {
+        alias: 'product',
+        innerJoinAndSelect: {
+          category: 'product.category',
+        },
+      },
+      ...query,
+    });
   };
 
   update = async (id: string, data: Partial<IProduct>) => {

@@ -55,6 +55,7 @@ export interface UserRepo {
 export interface CategoryRepo {
   save: (data: { name: string }) => Promise<Category>;
   getByName: (data: { name: string }) => Promise<Category>;
+  get: () => Promise<Category[]>;
 }
 
 export interface JWTConfig {
