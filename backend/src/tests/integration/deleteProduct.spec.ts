@@ -1,4 +1,4 @@
-import supertest from 'supertest';
+/*import supertest from 'supertest';
 import {
   ConnectionTestJest,
   generateProduct,
@@ -39,8 +39,6 @@ describe('delete product route integration test', () => {
     await new CategoryRepository().save({ name: category });
 
     const { id } = await new ProductRepository().save({ name, status });
-
-    console.log(name);
 
     const response = await supertest(app)
       .delete('/products')
@@ -142,3 +140,4 @@ describe('delete product route integration test', () => {
     expect(await new ProductRepository().get()).toHaveLength(1);
   });
 });
+*/

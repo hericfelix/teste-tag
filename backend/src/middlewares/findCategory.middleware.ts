@@ -12,17 +12,15 @@ const findCategory = async (
     const category: Category = await new CategoryRepository().getByName({
       name: req.body.category,
     });
-    console.log('passou');
 
     if (!category) {
       throw new ErrorHandler(404, 'invalid category');
     }
-    req.category = category;
+    req['category'] = category;
 
     delete req.body.category;
     return next();
   } catch (err) {
-    console.log(err);
     return next(err);
   }
 };

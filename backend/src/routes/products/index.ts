@@ -12,7 +12,7 @@ import {
   validateSchema,
   validateToken,
 } from '../../middlewares';
-import { createProductSchema } from '../../schemas';
+import { createProductSchema, updateProductSchema } from '../../schemas';
 
 const router = Router();
 
@@ -27,6 +27,12 @@ router.post(
   createProduct
 );
 router.delete('', validateToken, deleteProduct);
-router.patch('/:id', validateToken, upload.single('image'), updateProduct);
+router.patch(
+  '/:id',
+  validateToken,
+  upload.single('image'),
+  validateSchema(updateProductSchema),
+  updateProduct
+);
 
 export default router;
