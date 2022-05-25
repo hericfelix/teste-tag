@@ -40,8 +40,6 @@ describe('delete product route integration test', () => {
 
     const { id } = await new ProductRepository().save({ name, status });
 
-    console.log(name);
-
     const response = await supertest(app)
       .delete('/products')
       .send({ ids: [id] })

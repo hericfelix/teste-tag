@@ -1,12 +1,7 @@
 import { getRepository, Repository } from 'typeorm';
 import Product from '../entities/product';
 import { queryGenerator } from '../helpers';
-import {
-  ICreateProduct,
-  IProduct,
-  IQueryParams,
-  ProductRepo,
-} from '../ts/interfaces';
+import { ICreateProduct, IQueryParams, ProductRepo } from '../ts/interfaces';
 
 class ProductRepository implements ProductRepo {
   private ormRepo: Repository<Product>;
@@ -31,7 +26,7 @@ class ProductRepository implements ProductRepo {
     });
   };
 
-  update = async (id: string, data: Partial<IProduct>) => {
+  update = async (id: string, data: Partial<ICreateProduct>) => {
     return await this.ormRepo.update(id, { ...data });
   };
 

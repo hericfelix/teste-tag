@@ -4,8 +4,6 @@ import multer, { diskStorage } from 'multer';
 
 dotenv.config();
 
-console.log(process.env.SECRET_KEY);
-
 export const jwtConfig: JWTConfig = {
   secretKey: process.env.SECRET_KEY,
   expiresIn: process.env.EXPIRES_IN,

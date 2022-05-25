@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { login } from '../../controllers';
+import { getCategories } from '../../controllers';
 
 const router = Router();
 
-router.get('/categories', login);
+router.get('/categories', getCategories);
 
 export default router;

@@ -10,8 +10,6 @@ const createProduct = async (req: Request, res: Response) => {
 
   const result = await cloudinary.v2.uploader.upload(req.file.path);
 
-  console.log(result);
-
   data.imageUrl = result.url;
 
   const { user, category } = req;
