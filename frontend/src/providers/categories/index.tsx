@@ -1,6 +1,5 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 import api from '../../services';
-import { useNavigate } from 'react-router';
 import { ICategory } from '../../ts/interfaces';
 
 interface CategoriesProps {
@@ -17,8 +16,6 @@ const CategoriesContext = createContext<CategoriesContextData>(
 );
 
 export const CategoriesProvider = ({ children }: CategoriesProps) => {
-  const navigate = useNavigate();
-
   const [categories, setCategories] = useState<ICategory[]>([]);
 
   const getCategories = () => {
