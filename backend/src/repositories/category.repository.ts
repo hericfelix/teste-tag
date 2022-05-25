@@ -9,6 +9,8 @@ class CategoryRepository implements CategoryRepo {
     this.ormRepo = getRepository(Category);
   }
 
+  get = async () => await this.ormRepo.find();
+
   save = async (data: { name: string }) => await this.ormRepo.save(data);
 
   getByName = async (data: { name: string }) =>
