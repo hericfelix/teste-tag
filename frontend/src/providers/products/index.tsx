@@ -16,19 +16,24 @@ interface ProductsProviderProps {
 
 interface ProductsContextData {
   products: IProduct[];
+  filteredProducts: IProduct[];
   getProducts: (query: string) => void;
   createProduct: (data: FormData) => void;
-  deleteProducts: (ids: string[]) => void;
+  deleteProducts: () => void;
   updateProduct: (data: FormData) => void;
   addToDelete: (id: string) => void;
   removeFromDelete: (id: string) => void;
   editModalVisible: boolean;
   deleteModalVisible: boolean;
   editId: string;
+  setFilteredProducts: Dispatch<React.SetStateAction<IProduct[]>>;
   setEditId: Dispatch<React.SetStateAction<string>>;
   setEditModalVisible: Dispatch<React.SetStateAction<boolean>>;
   setDeleteModalVisible: Dispatch<React.SetStateAction<boolean>>;
   setDeleteIds: Dispatch<React.SetStateAction<string[]>>;
+  setQuery: Dispatch<React.SetStateAction<string[]>>;
+  query: string[];
+  deleteIds: string[];
 }
 
 const ProductsContext = createContext<ProductsContextData>(
@@ -42,14 +47,20 @@ export const ProductsProvider = ({ children }: ProductsProviderProps) => {
   const [editId, setEditId] = useState<string>('');
   const [editModalVisible, setEditModalVisible] = useState<boolean>(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState<boolean>(false);
+  const [query, setQuery] = useState<string[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
 
-  const getProducts = async (query: string = '') => {
+  const getProducts = async () => {
     api
-      .get(`products${query}`)
+      .get(`products${query.length > 0 ? `?${query.join('&')}` : ''}`)
       .then((res) => res.data)
-      .then((res) => setProducts(res))
+      .then((res) => {
+        setProducts(res);
+        setFilteredProducts(res);
+      })
       .catch((_) => {
         setProducts([]);
+        setFilteredProducts([]);
       });
   };
 
@@ -75,20 +86,22 @@ export const ProductsProvider = ({ children }: ProductsProviderProps) => {
         },
       })
       .then((res) => res.data)
-      .then((res) => toast.success(res.message))
+      .then((res) => {
+        toast.success('product updated');
+      })
       .catch((err) => toast.error(err.error));
 
     await getProducts();
   };
 
-  const deleteProducts = async (ids: string[] = deleteIds) => {
+  const deleteProducts = async () => {
     await api
       .delete('products', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
         data: {
-          ids: ids,
+          ids: deleteIds,
         },
       })
       .then((_) => toast.success('product(s) deleted'))
@@ -122,6 +135,11 @@ export const ProductsProvider = ({ children }: ProductsProviderProps) => {
         setDeleteModalVisible,
         setEditModalVisible,
         editId,
+        setQuery,
+        query,
+        filteredProducts,
+        setFilteredProducts,
+        deleteIds,
       }}
     >
       {children}

@@ -11,8 +11,3 @@ export interface ICategory {
   id: string;
   name: string;
 }
-
-export interface ILogin {
-  email: string;
-  password: string;
-}
