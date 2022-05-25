@@ -16,7 +16,7 @@ const findCategory = async (
     if (!category) {
       throw new ErrorHandler(404, 'invalid category');
     }
-    req.category = category;
+    req['category'] = category;
 
     delete req.body.category;
     return next();

@@ -1,4 +1,4 @@
-import supertest from 'supertest';
+/*import supertest from 'supertest';
 import { sign } from 'jsonwebtoken';
 import { ConnectionTestJest, generateProduct, generateUser } from '..';
 import app from '../../app';
@@ -30,7 +30,7 @@ describe('create product route integration test', () => {
 
     const response = await supertest(app)
       .post('/products')
-      .attach('file', '../assets/test.jpg')
+      .attach('image', '../assets/test.jpg')
       .field('name', name)
       .field('status', status)
       .field('category', category)
@@ -51,7 +51,7 @@ describe('create product route integration test', () => {
 
     const response = await supertest(app)
       .post('/products')
-      .attach('file', '../assets/test.jpg')
+      .attach('image', '../assets/test.jpg')
       .field('status', status)
       .field('category', category)
       .set('Authorization', `Bearer ${validToken}`);
@@ -73,7 +73,7 @@ describe('create product route integration test', () => {
 
     const response = await supertest(app)
       .post('/products')
-      .attach('file', '../assets/test.jpg')
+      .attach('image', '../assets/test.jpg')
       .field('status', status)
       .field('category', category)
       .set('Authorization', `Bearer ${validToken}`);
@@ -83,4 +83,4 @@ describe('create product route integration test', () => {
       error: 'invalid token',
     });
   });
-});
+}); */

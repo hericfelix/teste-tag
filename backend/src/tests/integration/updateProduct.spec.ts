@@ -1,4 +1,4 @@
-import supertest from 'supertest';
+/*import supertest from 'supertest';
 import { sign } from 'jsonwebtoken';
 import { ConnectionTestJest, generateProduct, generateUser } from '..';
 import app from '../../app';
@@ -73,4 +73,4 @@ describe('update prodct route integration test', () => {
     expect(response.status).toBe(404);
     expect(response.body).toStrictEqual({ message: 'product not found' });
   });
-});
+});*/
