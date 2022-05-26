@@ -72,7 +72,7 @@ const Home = () => {
           xl={5}
         >
           {paginatedProducts.map((el) => (
-            <Col key={el.id} className="column">
+            <Col key={el.id} className="column center">
               <ProductCard
                 key={el.id}
                 category={el.category}

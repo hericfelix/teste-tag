@@ -10,7 +10,7 @@ function App() {
   return (
     <Providers>
       <ToastContainer />
-      <AppRoutes />;
+      <AppRoutes />
     </Providers>
   );
 }
